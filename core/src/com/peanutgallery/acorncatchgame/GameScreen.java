@@ -24,6 +24,8 @@ public class GameScreen implements Screen {
 	Texture bucketImage;
 	Sound acornSound;
 	Music acornMusic;
+	
+	int bucketSpeed;
 
 	OrthographicCamera camera;
 	Rectangle bucket;
@@ -31,9 +33,19 @@ public class GameScreen implements Screen {
 
 	long lastDropTime;
 
+
+	boolean moveToTouch; //set to false in beginning
+	Vector3 touchPos;
+	//set to = new Vector3() in the beginning
+
 	public GameScreen(final AcornCatchGame game2) {
 		this.game = game2;
 
+		moveToTouch= false;
+		touchPos = new Vector3();
+
+		
+		bucketSpeed = 400;
 		game.lives = 5;
 		game.acornsGathered = 0;
 
@@ -41,7 +53,7 @@ public class GameScreen implements Screen {
 		acornImage = new Texture(Gdx.files.internal("images/acorn.png"));
 		bucketImage = new Texture(Gdx.files.internal("images/bucket.png"));
 
-		// load the drop sound effect and the acorn background "music"
+		// load the acorn sound effect and the acorn background "music"
 		acornSound = Gdx.audio.newSound(Gdx.files.internal("sounds/catchacorn.wav"));
 		acornMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/background-music.mp3"));
 		acornMusic.setLooping(true);
@@ -102,16 +114,34 @@ public class GameScreen implements Screen {
 
 
 		// process user input
+
 		if (Gdx.input.isTouched()) {
-			Vector3 touchPos = new Vector3();
+			moveToTouch = true;
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touchPos);
-			bucket.x = touchPos.x - 64 / 2;
 		}
-		if (Gdx.input.isKeyPressed(Keys.LEFT))
-			bucket.x -= 200 * Gdx.graphics.getDeltaTime();
-		if (Gdx.input.isKeyPressed(Keys.RIGHT))
-			bucket.x += 200 * Gdx.graphics.getDeltaTime();
+
+		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+			bucket.x -= bucketSpeed * Gdx.graphics.getDeltaTime();
+			moveToTouch = false;
+		}
+		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			bucket.x += bucketSpeed* Gdx.graphics.getDeltaTime();
+			moveToTouch = false;
+		}
+
+		if (moveToTouch) {
+			int dir;
+	 		
+			if( touchPos.x - bucket.x > 0) 
+	 			dir = 1;
+	 		else dir = -1;
+	 		
+			bucket.x += dir*bucketSpeed*Gdx.graphics.getDeltaTime();
+			
+			if ((dir > 0 && bucket.x > touchPos.x) || (dir < 0 && bucket.x < touchPos.x))
+				bucket.x = touchPos.x;
+		}
 
 		// make sure the bucket stays within the screen bounds
 		if (bucket.x < 0)
