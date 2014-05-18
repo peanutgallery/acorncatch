@@ -167,6 +167,7 @@ public class GameScreen implements Screen {
 				iter.remove();
 				game.lives--; 
 				if (game.lives < 1) {
+					acornMusic.stop();
 					game.setScreen(new EndGameScreen(game));
 					//dispose();
 				}
