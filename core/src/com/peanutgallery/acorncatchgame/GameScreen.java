@@ -211,6 +211,7 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		acornImage.dispose();
 		bucketImage.dispose();
+		acornMusic.stop();
 		acornSound.dispose();
 		acornMusic.dispose();
 		game.batch.dispose();
