@@ -1,15 +1,15 @@
-package com.peanutgallery.acornrungame.desktop;
+package com.peanutgallery.acorncatch.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.peanutgallery.acornrungame.AcornRunGame;
+import com.peanutgallery.acorncatchgame.AcornCatchGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = "AcornRun";
+		config.title = "acorncatch";
 		config.width = 800;
 		config.height = 480;
-		new LwjglApplication(new AcornRunGame(), config);
+		new LwjglApplication(new AcornCatchGame(), config);
 	}
 }

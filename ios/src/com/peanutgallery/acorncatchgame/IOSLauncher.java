@@ -1,17 +1,17 @@
-package com.peanutgallery.acornrungame;
+package com.peanutgallery.acorncatchgame;
 
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.peanutgallery.acornrungame.AcornRunGame;
+import com.peanutgallery.acorncatchgame.AcornCatchGame;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new AcornRunGame(), config);
+        return new IOSApplication(new AcornCatchGame(), config);
     }
 
     public static void main(String[] argv) {

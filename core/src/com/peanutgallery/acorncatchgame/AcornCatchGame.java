@@ -1,10 +1,10 @@
-package com.peanutgallery.acornrungame;
+package com.peanutgallery.acorncatchgame;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class AcornRunGame extends Game {
+public class AcornCatchGame extends Game {
 
 	public SpriteBatch batch;
 	public BitmapFont font;

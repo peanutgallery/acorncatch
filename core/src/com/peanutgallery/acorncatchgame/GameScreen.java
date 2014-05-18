@@ -1,4 +1,4 @@
-package com.peanutgallery.acornrungame;
+package com.peanutgallery.acorncatchgame;
 
 import java.util.Iterator;
 
@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameScreen implements Screen {
 
-	final AcornRunGame game;
+	final AcornCatchGame game;
 
 	Texture acornImage;
 	Texture bucketImage;
@@ -31,7 +31,7 @@ public class GameScreen implements Screen {
 
 	long lastDropTime;
 
-	public GameScreen(final AcornRunGame game2) {
+	public GameScreen(final AcornCatchGame game2) {
 		this.game = game2;
 
 		game.lives = 5;

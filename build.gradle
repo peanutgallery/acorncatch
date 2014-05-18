@@ -17,7 +17,7 @@ allprojects {
 
     version = '1.0'
     ext {
-        appName = 'acornrun-game'
+        appName = 'acorncatch-game'
         gdxVersion = '1.0.1'
         roboVMVersion = '0.0.12'
     }

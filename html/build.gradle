@@ -7,8 +7,8 @@ gwt {
     minHeapSize="1G"
 
     src = files(file("src/")) // Needs to be in front of "modules" below.
-    modules 'com.peanutgallery.acornrungame.GdxDefinition'
-    devModules 'com.peanutgallery.acornrungame.GdxDefinitionSuperdev'
+    modules 'com.peanutgallery.acorncatchgame.GdxDefinition'
+    devModules 'com.peanutgallery.acorncatchgame.GdxDefinitionSuperdev'
     project.webAppDirName = 'webapp'
 
     compiler {

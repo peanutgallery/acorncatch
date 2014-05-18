@@ -1,4 +1,4 @@
-package com.peanutgallery.acornrungame;
+package com.peanutgallery.acorncatchgame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class EndGameScreen implements Screen {
 	
-	final AcornRunGame game;
+	final AcornCatchGame game;
 
 	OrthographicCamera camera;
 
-	public EndGameScreen(AcornRunGame gam) {
+	public EndGameScreen(AcornCatchGame gam) {
 		game = gam;
 
 		camera = new OrthographicCamera();

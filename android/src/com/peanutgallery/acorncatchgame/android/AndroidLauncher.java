@@ -1,10 +1,10 @@
-package com.peanutgallery.acornrungame.android;
+package com.peanutgallery.acorncatchgame.android;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.peanutgallery.acornrungame.AcornRunGame;
+import com.peanutgallery.acorncatchgame.AcornCatchGame;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
@@ -13,6 +13,6 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useAccelerometer = false;
 		config.useCompass = false;
-		initialize(new AcornRunGame(), config);
+		initialize(new AcornCatchGame(), config);
 	}
 }

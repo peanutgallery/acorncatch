@@ -5,8 +5,8 @@
 	<inherits name='com.badlogic.gdx.physics.box2d.box2d-gwt' />
 	<inherits name='Box2DLights' />
 
-	<inherits name='AcornRunGame' />
-	<entry-point class='com.peanutgallery.acornrungame.client.HtmlLauncher' />
+	<inherits name='acorncatchGame' />
+	<entry-point class='com.peanutgallery.acorncatchgame.client.HtmlLauncher' />
 	
 	<set-configuration-property name="gdx.assetpath" value="../android/assets" />
 </module>
