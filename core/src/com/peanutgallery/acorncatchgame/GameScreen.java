@@ -141,6 +141,7 @@ public class GameScreen implements Screen {
 			
 			if ((dir > 0 && bucket.x > touchPos.x) || (dir < 0 && bucket.x < touchPos.x))
 				bucket.x = touchPos.x;
+			
 		}
 
 		// make sure the bucket stays within the screen bounds
@@ -167,6 +168,7 @@ public class GameScreen implements Screen {
 				iter.remove();
 				game.lives--; 
 				if (game.lives < 1) {
+					acornMusic.stop();
 					game.setScreen(new EndGameScreen(game));
 					//dispose();
 				}
