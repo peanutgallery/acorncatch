@@ -96,8 +96,9 @@ RemoteSystemsTempFiles/
 *R.java
 
 ### eclipse files we DO want
-# local.properties
+local.properties
 # */.loadpath
 # classpath
 # settings
 
+/bin
