@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
 		touchPos = new Vector3();
 
 		
-		bucketSpeed = 400;
+		bucketSpeed = 500;
 		game.lives = 5;
 		game.acornsGathered = 0;
 
