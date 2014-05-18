@@ -8,6 +8,9 @@ public class AcornRunGame extends Game {
 
 	public SpriteBatch batch;
 	public BitmapFont font;
+	
+	public int acornsGathered;
+	public int lives;
 
 	public void create() {
 		batch = new SpriteBatch();

@@ -30,16 +30,18 @@ public class GameScreen implements Screen {
 	Array<Rectangle> acorns;
 
 	long lastDropTime;
-	int acornsGathered;
 
 	public GameScreen(final AcornRunGame game2) {
 		this.game = game2;
 
-		// load the images for the droplet and the bucket, 64x64 pixels each
+		game.lives = 5;
+		game.acornsGathered = 0;
+
+		// load the images for the acorn and the bucket, 64x64 pixels each
 		acornImage = new Texture(Gdx.files.internal("images/acorn.png"));
 		bucketImage = new Texture(Gdx.files.internal("images/bucket.png"));
 
-		// load the drop sound effect and the rain background "music"
+		// load the drop sound effect and the acorn background "music"
 		acornSound = Gdx.audio.newSound(Gdx.files.internal("sounds/catchacorn.wav"));
 		acornMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/background-music.mp3"));
 		acornMusic.setLooping(true);
@@ -90,7 +92,8 @@ public class GameScreen implements Screen {
 		// begin a new batch and draw the bucket and
 		// all drops
 		game.batch.begin();
-		game.font.draw(game.batch, "Acorns Collected: " + acornsGathered, 0, 480);
+		game.font.draw(game.batch, "Acorns Collected: " + game.acornsGathered, 0, 480);
+		game.font.draw(game.batch, "Lives: " + game.lives, 700, 480);
 		game.batch.draw(bucketImage, bucket.x, bucket.y, bucket.width, bucket.height);
 		for (Rectangle acorn : acorns) {
 			game.batch.draw(acornImage, acorn.x, acorn.y, acorn.width, acorn.height);
@@ -130,15 +133,21 @@ public class GameScreen implements Screen {
 			acorn.width = 38;
 			acorn.height = 48;
 			acorn.y -= 200 * Gdx.graphics.getDeltaTime();
-			if(acorn.y + 64 < 0) iter.remove();
+			if(acorn.y + 64 < 0) {
+				iter.remove();
+				game.lives--; 
+				if (game.lives < 1) {
+					game.setScreen(new EndGameScreen(game));
+					//dispose();
+				}
+			}
 
 			if(acorn.overlaps(bucket)) {
 				acornSound.play();
 				iter.remove();
-				acornsGathered++;
+				game.acornsGathered++;
 			}
 		}
-
 	}
 
 	@Override
