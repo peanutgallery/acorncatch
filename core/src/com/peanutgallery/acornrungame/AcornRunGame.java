@@ -10,6 +10,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -32,13 +33,15 @@ public class AcornRunGame extends ApplicationAdapter {
 	Array<Rectangle> acorns;
 	long lastDropTime;
 
+	BitmapFont font;
+	int score;
+	
 	@Override
 	public void create () {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
 
 		batch = new SpriteBatch();
-		img = new Texture("images/acorn.png");
 		touchPos = new Vector3();
 
 		// load the images for the droplet and the bucket, 64x64 pixels each
@@ -61,8 +64,10 @@ public class AcornRunGame extends ApplicationAdapter {
 
 		acorns = new Array<Rectangle>();
 		spawnAcorns();
+		
+		score = 0;
 	}
-
+	
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
@@ -70,11 +75,18 @@ public class AcornRunGame extends ApplicationAdapter {
 
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
+		
+		CharSequence str = Integer.toString(score);
+		font = new BitmapFont();
+		font.setScale(2);
 		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.draw(bucketImage, bucket.x, bucket.y);
+		font.draw(batch, str, 30, 30);
+		batch.end();
+		
+		batch.begin();
+		batch.draw(bucketImage, bucket.x, bucket.y, bucket.width, bucket.height);
 		for(Rectangle acorn: acorns) {
-			batch.draw(acornImage, acorn.x, acorn.y);
+			batch.draw(acornImage, acorn.x, acorn.y, acorn.width, acorn.height);
 		}
 		batch.end();
 
@@ -95,12 +107,15 @@ public class AcornRunGame extends ApplicationAdapter {
 		Iterator<Rectangle> iter = acorns.iterator();
 		while(iter.hasNext()) {
 			Rectangle acorn = iter.next();
+			acorn.width = 48;
+			acorn.height = 48;
 			acorn.y -= 200 * Gdx.graphics.getDeltaTime();
 			if(acorn.y + 64 < 0) iter.remove();
 
 			if(acorn.overlaps(bucket)) {
 				acornSound.play();
 				iter.remove();
+				score++;
 			}
 		}
 	}
