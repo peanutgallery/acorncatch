@@ -3,7 +3,6 @@ package com.peanutgallery.acorncatchgame;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -32,6 +31,9 @@ public class GameScreen implements Screen, InputProcessor {
 	boolean keyPressedRight;
 	int goToX;
 
+	int acornSpeed;
+	int level, nextLevelScore;
+	
 	OrthographicCamera camera;
 	Rectangle bucket;
 	Array<Rectangle> acorns;
@@ -50,8 +52,12 @@ public class GameScreen implements Screen, InputProcessor {
 		keyPressedLeft = false;
 		keyPressedRight = false;
 
-		
 		bucketSpeed = 500;
+		acornSpeed = 200;
+		level = 1; // I am adding levels in case in the future we want to do more than just increase
+					// acornSpeed to add difficulty
+		nextLevelScore = 10; 
+		
 		game.lives = 5;
 		game.acornsGathered = 0;
 
@@ -133,13 +139,15 @@ public class GameScreen implements Screen, InputProcessor {
 			Rectangle acorn = iter.next();
 			acorn.width = 38;
 			acorn.height = 48;
-			acorn.y -= 200 * Gdx.graphics.getDeltaTime();
+			acorn.y -= acornSpeed * Gdx.graphics.getDeltaTime();
 			if(acorn.y + 64 < 0) {
 				iter.remove();
 				game.lives--; 
 				if (game.lives < 1) {
+					
+					acornMusic.stop();
 					game.setScreen(new EndGameScreen(game));
-					//dispose();
+					//dispose(); Left out because we will reuse game for restart
 				}
 			}
 
@@ -147,8 +155,26 @@ public class GameScreen implements Screen, InputProcessor {
 				acornSound.play();
 				iter.remove();
 				game.acornsGathered++;
+			
+				if (game.acornsGathered == nextLevelScore) {
+					level++;
+					nextLevelScore += 10;
+					//Currently increasing nextLevelScore linearly
+					updateLevel();
+				}
 			}
+			
+			
 		}
+	}
+
+	private void updateLevel() {
+		// Updates global variables to make game more difficult
+		acornSpeed += 50;
+		bucketSpeed += 50;
+		//currently only increases speed
+		// TODO: I think we should test out a maximum speed that is still humanly possible and cap off 
+		// our acorn and bucket speeds there. - Maggie 
 	}
 
 	@Override
