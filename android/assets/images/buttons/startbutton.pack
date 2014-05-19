@@ -1,0 +1,19 @@
+
+startbutton.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+startbuttondown
+  rotate: false
+  xy: 1, 1
+  size: 140, 62
+  orig: 140, 62
+  offset: 0, 0
+  index: -1
+startbuttonup
+  rotate: false
+  xy: 143, 1
+  size: 140, 62
+  orig: 140, 62
+  offset: 0, 0
+  index: -1
