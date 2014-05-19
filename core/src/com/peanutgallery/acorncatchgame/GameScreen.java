@@ -3,7 +3,9 @@ package com.peanutgallery.acorncatchgame;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -16,7 +18,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class GameScreen implements Screen {
+public class GameScreen implements Screen, InputProcessor {
 
 	final AcornCatchGame game;
 
@@ -26,6 +28,9 @@ public class GameScreen implements Screen {
 	Music acornMusic;
 	
 	int bucketSpeed;
+	boolean keyPressedLeft;
+	boolean keyPressedRight;
+	int goToX;
 
 	OrthographicCamera camera;
 	Rectangle bucket;
@@ -41,8 +46,9 @@ public class GameScreen implements Screen {
 	public GameScreen(final AcornCatchGame game2) {
 		this.game = game2;
 
-		moveToTouch= false;
-		touchPos = new Vector3();
+		Gdx.input.setInputProcessor(this);
+		keyPressedLeft = false;
+		keyPressedRight = false;
 
 		
 		bucketSpeed = 500;
@@ -111,43 +117,8 @@ public class GameScreen implements Screen {
 			game.batch.draw(acornImage, acorn.x, acorn.y, acorn.width, acorn.height);
 		}
 		game.batch.end();
-
-
-		// process user input
-
-		if (Gdx.input.isTouched()) {
-			moveToTouch = true;
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-			bucket.x -= bucketSpeed * Gdx.graphics.getDeltaTime();
-			moveToTouch = false;
-		}
-		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			bucket.x += bucketSpeed* Gdx.graphics.getDeltaTime();
-			moveToTouch = false;
-		}
-
-		if (moveToTouch) {
-			int dir;
-	 		
-			if( touchPos.x - bucket.x > 0) 
-	 			dir = 1;
-	 		else dir = -1;
-	 		
-			bucket.x += dir*bucketSpeed*Gdx.graphics.getDeltaTime();
-			
-			if ((dir > 0 && bucket.x > touchPos.x) || (dir < 0 && bucket.x < touchPos.x))
-				bucket.x = touchPos.x;
-		}
-
-		// make sure the bucket stays within the screen bounds
-		if (bucket.x < 0)
-			bucket.x = 0;
-		if (bucket.x > 800 - 64)
-			bucket.x = 800 - 64;
+		
+		moveBucket();
 
 		// check if we need to create a new acorn
 		if (TimeUtils.nanoTime() - lastDropTime > 1000000000)
@@ -214,6 +185,93 @@ public class GameScreen implements Screen {
 		acornSound.dispose();
 		acornMusic.dispose();
 		game.batch.dispose();
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			keyPressedRight = true;
+		}
+		else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+			keyPressedLeft = true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		keyPressedLeft = false;
+		keyPressedRight = false;
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		goToX = screenX;
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		goToX = screenX;
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public void moveBucket() {
+		
+		if (keyPressedLeft) {
+			goToX -= bucketSpeed * Gdx.graphics.getDeltaTime();
+		}
+		else if (keyPressedRight) {
+			goToX += bucketSpeed * Gdx.graphics.getDeltaTime();
+		}
+		
+		if (goToX == bucket.x)
+			return;
+				
+		int dir;
+		if( goToX - bucket.x > 0) 
+ 			dir = 1;
+ 		else
+ 			dir = -1;
+ 		
+		bucket.x += dir * bucketSpeed * Gdx.graphics.getDeltaTime();
+		
+		if ((dir > 0 && bucket.x > goToX) || (dir < 0 && bucket.x < goToX))
+			bucket.x = goToX;
+		
+		if (bucket.x < 0)
+			bucket.x = 0;
+		if (bucket.x > 800 - 64)
+			bucket.x = 800 - 64;
 	}
 
 }
