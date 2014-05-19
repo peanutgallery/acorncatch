@@ -254,7 +254,7 @@ public class GameScreen implements Screen, InputProcessor {
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		// TODO Auto-generated method stub
-		goToX = screenX;
+		goToX = Gdx.input.getX();
 		return false;
 	}
 
